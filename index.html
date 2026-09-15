@@ -352,7 +352,7 @@
 })();
 </script>
 <script>
-// Favicon: a 5×5 dot grid that spells E → D → E → N, flipping cells in a diagonal wave between letters.
+// Favicon: a 5×5 dot grid that cycles through four frames, E → D → E → N.
 (() => {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const LETTERS = [
@@ -364,33 +364,24 @@
   const c = document.createElement("canvas");
   c.width = c.height = 64;
   const g = c.getContext("2d");
-  const HOLD = 1200, WAVE = 450, STEP = HOLD + WAVE;
-  let last = "";
-
-  function draw(now) {
-    const k = Math.floor(now / STEP), t = now % STEP;
-    const from = LETTERS[k % 4], to = LETTERS[(k + 1) % 4];
-    const p = t < HOLD ? 0 : (t - HOLD) / WAVE; // 0..1 through the wave
+  const frames = LETTERS.map(rows => {
     g.clearRect(0, 0, 64, 64);
     g.fillStyle = "#0a0a0a"; g.beginPath(); g.roundRect(0, 0, 64, 64, 14); g.fill();
-    let sig = "";
-    for (let y = 0; y < 5; y++) for (let x = 0; x < 5; x++) {
-      const flip = Math.min(1, Math.max(0, p * 9 - (x + y))); // cell's own 0..1, staggered along the diagonal
-      const a = from[y][x] === "1", b = to[y][x] === "1";
-      const on = a === b ? (a ? 1 : 0) : a ? 1 - flip : flip;
-      sig += (on * 4 | 0);
-      if (!on) continue;
-      const s = 8 * on, o = (8 - s) / 2;
-      g.fillStyle = "#ededed"; g.beginPath(); g.roundRect(7 + x * 10 + o, 7 + y * 10 + o, s, s, 2); g.fill();
-    }
-    if (sig === last) return;
-    last = sig;
+    g.fillStyle = "#ededed";
+    rows.forEach((r, y) => [...r].forEach((on, x) => {
+      if (on === "1") { g.beginPath(); g.roundRect(7 + x * 10, 7 + y * 10, 8, 8, 2); g.fill(); }
+    }));
+    return c.toDataURL("image/png");
+  });
+
+  let i = 0;
+  setInterval(() => {
+    i = (i + 1) % frames.length;
     // browsers ignore href changes on an existing icon link, so swap in a fresh one
     const link = document.createElement("link");
-    link.id = "favicon"; link.rel = "icon"; link.type = "image/png"; link.href = c.toDataURL("image/png");
+    link.id = "favicon"; link.rel = "icon"; link.type = "image/png"; link.href = frames[i];
     document.getElementById("favicon").replaceWith(link);
-  }
-  setInterval(() => draw(performance.now()), 50);
+  }, 1500);
 })();
 </script>
 </body>
