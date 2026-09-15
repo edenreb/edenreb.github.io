@@ -22,7 +22,7 @@ jobs:
             [.[] | select(.name != "edenreb.github.io")][0]
             | if .private
               then {name: "a private project", url: null, pushed_at}
-              else {name, url: .html_url, pushed_at}
+              else {name, url: (if (.homepage // "") != "" then .homepage else .html_url end), pushed_at}
               end' > now.json
           cat now.json
 

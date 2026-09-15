@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Eden Rebello</title>
 <meta name="description" content="Eden Rebello — incoming Computer Science student at UIUC Grainger. Web development, SEO, and small tools.">
+<link id="favicon" rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%230a0a0a"/><rect x="7" y="7" width="8" height="8" rx="2" fill="%23ededed"/><rect x="17" y="7" width="8" height="8" rx="2" fill="%23ededed"/><rect x="27" y="7" width="8" height="8" rx="2" fill="%23ededed"/><rect x="37" y="7" width="8" height="8" rx="2" fill="%23ededed"/><rect x="47" y="7" width="8" height="8" rx="2" fill="%23ededed"/><rect x="7" y="17" width="8" height="8" rx="2" fill="%23ededed"/><rect x="7" y="27" width="8" height="8" rx="2" fill="%23ededed"/><rect x="17" y="27" width="8" height="8" rx="2" fill="%23ededed"/><rect x="27" y="27" width="8" height="8" rx="2" fill="%23ededed"/><rect x="37" y="27" width="8" height="8" rx="2" fill="%23ededed"/><rect x="7" y="37" width="8" height="8" rx="2" fill="%23ededed"/><rect x="7" y="47" width="8" height="8" rx="2" fill="%23ededed"/><rect x="17" y="47" width="8" height="8" rx="2" fill="%23ededed"/><rect x="27" y="47" width="8" height="8" rx="2" fill="%23ededed"/><rect x="37" y="47" width="8" height="8" rx="2" fill="%23ededed"/><rect x="47" y="47" width="8" height="8" rx="2" fill="%23ededed"/></svg>'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -35,7 +36,8 @@
   a:hover { text-decoration-color: var(--fg); }
 
   header { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
-  h1 { font-size: 16px; font-weight: 500; margin: 0; }
+  h1 { display: flex; align-items: center; gap: 12px; font-size: 16px; font-weight: 500; margin: 0; }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
   nav { display: flex; gap: 6px; }
   nav a {
     font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase;
@@ -51,7 +53,8 @@
   @keyframes pulse { to { transform: scale(2.6); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { .pulse::after { animation: none; } }
 
-  .lede { color: var(--muted); margin: 20px 0 0; }
+  .tagline { margin: 24px 0 0; font-size: 18px; font-weight: 500; }
+  .lede { color: var(--muted); margin: 8px 0 0; }
 
   hr { border: 0; border-top: 1px dashed var(--faint); margin: 48px 0 0; }
   h2 { font-size: 15px; font-weight: 400; color: var(--muted); margin: 40px 0 14px; }
@@ -71,6 +74,16 @@
   .item li::marker { content: "- "; color: var(--faint); font-family: var(--mono); }
   .date { font: 12px var(--mono); white-space: nowrap; }
 
+  /* hover preview: beside the column on wide screens, above the item on narrow ones */
+  .has-preview { position: relative; }
+  .preview {
+    position: absolute; z-index: 2; left: calc(100% + 40px); top: -8px; width: 340px; height: auto;
+    border-radius: 14px; box-shadow: 0 16px 48px rgba(0, 0, 0, .6);
+    opacity: 0; transform: translateY(6px) scale(.98); transition: opacity .2s, transform .2s; pointer-events: none;
+  }
+  .has-preview:hover .preview, .has-preview:focus-within .preview { opacity: 1; transform: none; }
+  @media (max-width: 1080px) { .preview { left: 0; top: auto; bottom: calc(100% + 12px); width: min(340px, 100%); } }
+
   footer { margin-top: 64px; padding-bottom: 32px; }
   footer .credit { padding-top: 16px; color: var(--muted); }
   footer .credit a { color: var(--fg); }
@@ -88,7 +101,7 @@
 
 <main>
   <header>
-    <h1>Eden Rebello</h1>
+    <h1><img class="avatar" src="avatar.jpg" alt="" width="36" height="36">Eden Rebello</h1>
     <nav>
       <a href="https://github.com/edenreb">GitHub</a>
       <a href="https://www.linkedin.com/in/edenrebello/">LinkedIn</a>
@@ -97,7 +110,21 @@
 
   <p class="now"><i class="pulse"></i><span>Currently working on <a id="now-repo" href="https://github.com/edenreb">Dumbify</a><span id="now-when"></span></span></p>
 
-  <p class="lede">Incoming Computer Science student at UIUC Grainger. I build websites end to end, from DNS and build pipelines to the pages people read, and make small tools that get distractions out of the way.</p>
+  <p class="tagline">Build, learn, break, rebuild</p>
+  <p class="lede">I'm an incoming Computer Science student at UIUC Grainger. I study Artificial Intelligence and Machine Learning. I built websites and extensions to solve problems for my clients and myself. Now, I enjoy building AI-powered tools.</p>
+
+  <hr>
+  <h2>Education</h2>
+
+  <div class="item">
+    <div class="row"><span>University of Illinois Urbana-Champaign</span><i class="dots"></i><span class="date">2027 – 2030</span></div>
+    <p class="sub">B.S. Computer Science, The Grainger College of Engineering</p>
+  </div>
+
+  <div class="item">
+    <div class="row"><span>Dubai American Academy</span><i class="dots"></i><span class="date">Class of 2026</span></div>
+    <p class="sub">IB Diploma · 3.98 cumulative GPA</p>
+  </div>
 
   <hr>
   <h2>Experience</h2>
@@ -142,8 +169,9 @@
   <hr>
   <h2>Projects</h2>
 
-  <div class="item">
-    <div class="row"><span>Dumbify</span><i class="dots"></i><span class="date">Jun 2026 – now</span></div>
+  <div class="item has-preview">
+    <img class="preview" src="dumbify.png" alt="Dumbify search results for Apple as a plain text list" width="2530" height="1954" loading="lazy">
+    <div class="row"><a href="https://chromewebstore.google.com/detail/lhnjjldhbllcdfdldeacdgalkkofhicf">Dumbify</a><i class="dots"></i><span class="date">Jun 2026 – now</span></div>
     <p class="sub">Chrome extension</p>
     <ul>
       <li>Turns YouTube into a plain reading list: titles, channels, and durations. No thumbnails, autoplay, or recommendations.</li>
@@ -151,24 +179,11 @@
     </ul>
   </div>
 
-  <hr>
-  <h2>Education</h2>
-
-  <div class="item">
-    <div class="row"><span>University of Illinois Urbana-Champaign</span><i class="dots"></i><span class="date">2027 – 2030</span></div>
-    <p class="sub">B.S. Computer Science, The Grainger College of Engineering</p>
-  </div>
-
-  <div class="item">
-    <div class="row"><span>Dubai American Academy</span><i class="dots"></i><span class="date">Class of 2026</span></div>
-    <p class="sub">IB Diploma · 3.98 cumulative GPA</p>
-  </div>
-
 </main>
 
 <footer>
   <p class="credit">Photograph taken by myself in China. Check out my Pexels <a href="https://www.pexels.com/@eden-rebello-2155768213/">here</a>.</p>
-  <p>Dubai → Urbana-Champaign · 2026</p>
+  <p>© 2026 Eden Rebello</p>
 </footer>
 
 <script>
@@ -334,6 +349,48 @@
     new ResizeObserver(() => { clearTimeout(pending); pending = setTimeout(() => { sample(); if (still) frame(0); }, 150); }).observe(document.body);
   });
   img.src = "china.jpg";
+})();
+</script>
+<script>
+// Favicon: a 5×5 dot grid that spells E → D → E → N, flipping cells in a diagonal wave between letters.
+(() => {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const LETTERS = [
+    ["11111", "10000", "11110", "10000", "11111"], // E
+    ["11110", "10001", "10001", "10001", "11110"], // D
+    ["11111", "10000", "11110", "10000", "11111"], // E
+    ["10001", "11001", "10101", "10011", "10001"], // N
+  ];
+  const c = document.createElement("canvas");
+  c.width = c.height = 64;
+  const g = c.getContext("2d");
+  const HOLD = 1200, WAVE = 450, STEP = HOLD + WAVE;
+  let last = "";
+
+  function draw(now) {
+    const k = Math.floor(now / STEP), t = now % STEP;
+    const from = LETTERS[k % 4], to = LETTERS[(k + 1) % 4];
+    const p = t < HOLD ? 0 : (t - HOLD) / WAVE; // 0..1 through the wave
+    g.clearRect(0, 0, 64, 64);
+    g.fillStyle = "#0a0a0a"; g.beginPath(); g.roundRect(0, 0, 64, 64, 14); g.fill();
+    let sig = "";
+    for (let y = 0; y < 5; y++) for (let x = 0; x < 5; x++) {
+      const flip = Math.min(1, Math.max(0, p * 9 - (x + y))); // cell's own 0..1, staggered along the diagonal
+      const a = from[y][x] === "1", b = to[y][x] === "1";
+      const on = a === b ? (a ? 1 : 0) : a ? 1 - flip : flip;
+      sig += (on * 4 | 0);
+      if (!on) continue;
+      const s = 8 * on, o = (8 - s) / 2;
+      g.fillStyle = "#ededed"; g.beginPath(); g.roundRect(7 + x * 10 + o, 7 + y * 10 + o, s, s, 2); g.fill();
+    }
+    if (sig === last) return;
+    last = sig;
+    // browsers ignore href changes on an existing icon link, so swap in a fresh one
+    const link = document.createElement("link");
+    link.id = "favicon"; link.rel = "icon"; link.type = "image/png"; link.href = c.toDataURL("image/png");
+    document.getElementById("favicon").replaceWith(link);
+  }
+  setInterval(() => draw(performance.now()), 50);
 })();
 </script>
 </body>
