@@ -25,7 +25,7 @@ jobs:
           gh api "$ENDPOINT?sort=pushed&per_page=10" --jq '
             [.[] | select(.name != "edenreb.github.io")][0]
             | if .private
-              then {name: "a private project", url: null, pushed_at}
+              then {name: "a private repository", url: null, pushed_at}
               else {name, url: (if (.homepage // "") != "" then .homepage else .html_url end), pushed_at}
               end' > now.json
           cat now.json
